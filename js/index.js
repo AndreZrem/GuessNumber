@@ -1,74 +1,68 @@
 const form = document.getElementById('form');
 form.addEventListener('submit', handleSubmit);
 
-let statusA = document.getElementById('statusA');
+let status = document.getElementById('statusA');
 let attempt = document.getElementById('attempt');
 let result = document.getElementById('result');
 
-const Guess = { 
+const Guess = {
     max: 10,
-    attemptsNumber: 0,
-    numberDrawn: function randomValue() {
-        return Math.round(Math.round() * this.max);
+    attempsNumber: 0,
+    nunberDrawn: function randowValue() {
+        return Math.round(Math.random() * this.max);
     }
+};
+
+let numberDrawn = Guess.nunberDrawn();
+
+function updateAttempt(attempt, value) {
+    attempt.innerHTML = 'Tentativa: ' + value;
+};
+
+function handleSubmit(e) {
+  e.preventDefault();
+  
+  let kick = document.getElementById('kick').value;
+
+  if(!kick)
+  {
+    alert('Nada digitado, por favor digite um numero valido!')
+    return;
+  };
+
+  updateAttempt(attempt, ++Guess.attempsNumber);
+
+  if(numberDrawn == kick)
+  {
+    playAgain();
+    statusA.innerHTML = 'Parabéns você acertou!';
+    result.style.transition = '0.4s'
+    result.style.backgroundColor = '#37c978';
+    result.style.color = '#FFF';
+    statusA.style.color = '#FFF';
+    clear();
+  } else if(numberDrawn > kick)
+  {
+    statusA.innerHTML = 'O numero é maior!';
+    statusA.style.color = '#de4251';
+    clear();
+  }else if(numberDrawn < kick)
+  {
+    statusA.innerHTML = 'O numero é menor!';
+    statusA.style.color = '#de4251';
+    clear();
+  }
+
 }
 
-let numberDrawn = Guess.numberDrawn();
-
-function updateAttempt(attempt, value)
-{
-    attempt.innerHTML = 'Tentativa: ' + value
-}
-
-function handleSubmit(e)
-{
-    e.preventDefault();
-
-    let kick = document.getElementById('kick').value;
-
-    if(!kick)
-    {
-        alert('Digite um valor valido!')
-        return;
-    }
-
-    updateAttempt(attempt, ++Guess.attemptsNumber)
-
-    if(numberDrawn == kick)
-    {
-        playAgain();
-        statusA.innerHTML = 'parabéns você acertou';
-        result.style.transition = '0.4s';
-        result.style.backgroundColor = '#37c978';
-        result.style.color = '#FFF';
-        statusA.style.color = '#FFF';
-        clear();
-    }
-    else if(numberDrawn > kick)
-    {
-        statusA.innerHTML = 'O número é maior'
-        statusA.style.color = '#de4251';
-        clear();
-    }
-    else if(numberDrawn < kick)
-    {
-        statusA.innerHTML = 'O número é menor'
-        statusA.style.color = '#de4251';
-        clear();
-    }
-}
-
-function playAgain()
-{
+function playAgain() {
     document.getElementById('btnRestart').style.display = 'flex';
-}
+};
 
-function restart()
-{
+function restart() {
     document.location.reload(true);
-}
+};
 
-function clear()
-{
+function clear() {
     document.getElementById('kick').value = '';
 }
